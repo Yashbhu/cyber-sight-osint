@@ -1,10 +1,26 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { useNavigate } from 'react-router-dom';
 
 const LandingPage = () => {
   const navigate = useNavigate();
+  const [typewriterText, setTypewriterText] = useState('');
+  const fullText = 'Ethical OSINT Platform';
+  
+  useEffect(() => {
+    let index = 0;
+    const timer = setInterval(() => {
+      if (index <= fullText.length) {
+        setTypewriterText(fullText.slice(0, index));
+        index++;
+      } else {
+        clearInterval(timer);
+      }
+    }, 100);
+    
+    return () => clearInterval(timer);
+  }, []);
 
   const handleGetStarted = () => {
     navigate('/search');
@@ -41,9 +57,9 @@ const LandingPage = () => {
             {/* Left Side - Brain Animation */}
             <div className="flex flex-col items-center space-y-8">
               <div className="relative">
-                <div className="w-64 h-64 bg-gradient-to-br from-green-400/20 to-green-600/20 rounded-full flex items-center justify-center border-2 border-green-400/30 pulse-border">
-                  <div className="w-48 h-48 bg-green-400/10 rounded-full flex items-center justify-center float">
-                    <div className="text-6xl">🧠</div>
+                <div className="w-80 h-80 bg-gradient-to-br from-green-400/20 to-green-600/20 rounded-full flex items-center justify-center border-2 border-green-400/30 pulse-border">
+                  <div className="w-64 h-64 bg-green-400/10 rounded-full flex items-center justify-center float">
+                    <div className="text-8xl">🧠</div>
                   </div>
                 </div>
                 <div className="absolute -top-4 -right-4 w-8 h-8 bg-green-400 rounded-full opacity-60 animate-ping"></div>
@@ -61,12 +77,9 @@ const LandingPage = () => {
             {/* Right Side - Headlines */}
             <div className="space-y-8">
               <div className="space-y-4">
-                <h1 className="text-6xl lg:text-7xl font-bold leading-tight">
-                  <span className="text-white">Ethical</span>
-                  <br />
-                  <span className="text-green-400 glow-text">OSINT</span>
-                  <br />
-                  <span className="text-white">Platform</span>
+                <h1 className="text-6xl lg:text-7xl font-bold leading-tight font-mono">
+                  <span className="text-white">{typewriterText}</span>
+                  <span className="animate-pulse text-green-400">|</span>
                 </h1>
                 
                 <p className="text-xl text-green-300/80 max-w-md leading-relaxed">
